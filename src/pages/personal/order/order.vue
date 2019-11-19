@@ -64,26 +64,25 @@ export default {
     height: 40px;
     display: flex;
     flex-direction: row;
-    /* border-bottom: 10px solid #f3f3f3 */
+    background: #ffffff;
+    border-top: 1px solid #f3f3f3 ;
   }
 .sort_button {
     width: 25%;
     height: 40px;
-    justify-content: center
   }
 .sort_button_text {
-    position: relative;
-    left: 50%;
-    width: 40px;
+	  display: block;
+    width: 100%;
+    text-align: center;
     height: 40px;
     line-height: 40px;
-    text-align: center;
     font-size: 14px;
     color: #454545;
-    margin-left: -20px;
   }
 .itemSelectedColor {
     border-bottom: 2px solid #06c1ae;  
-    color: #06c1ae
+    color: #06c1ae;
+    box-sizing: border-box;
 }
 </style>

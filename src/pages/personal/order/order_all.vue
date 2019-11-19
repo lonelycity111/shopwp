@@ -1,30 +1,29 @@
 <template>
-  <div class="container">
-    <ul>
-      <li class="order_list" v-for="(item,index) in listData" :key="index">
-        <div class="order_list_top">
-          <div class="order_list_business_name">
-            <image src="../../../static/images/order_list_business_name_tb.png" class="order_list_business_name_tb"/>深圳天络科技有限公司
-          </div>
-          <div class="order_list_order_state">{{item.order_state}}</div>
-        </div>
-
-        <div class="order_list_center">
-          <image :src="item.album_pics" class="order_list_goods_img"/>
-          <div class="order_list_goods_name">
-            <span class="order_list_goods_name_text">{{item.name}}</span>
-          </div>
-        </div>
-
-        <div class="order_list_bottom">
-          <button class="order_list_button">
-            <span class="order_list_button_text">{{order_status[item.status]}}</span>
-          </button>
-          <div class="order_list_goods_price">¥ {{item.total_amount}}</div>
-        </div>
-      </li>
-    </ul>
-  </div>
+  <ul class="order_list_container">
+	  <li class="order_list" v-for="(item,index) in listData" :key="index">
+	    <div class="order_list_top">
+	      <div class="order_list_business_name">
+	        <image src="../../../static/images/order_list_business_name_tb.png" class="order_list_business_name_tb"/>
+	        <p>深圳天络科技有限公司</p>    	
+	      </div>
+	      <div class="order_list_order_state">{{item.order_state}}</div>
+	    </div>
+	
+	    <div class="order_list_center">
+	      <image :src="item.album_pics" class="order_list_goods_img"/>
+	      <div class="order_list_goods_name">
+	        <span class="order_list_goods_name_text">{{item.name}}</span>
+	      </div>
+	    </div>
+	
+	    <div class="order_list_bottom">
+	      <button class="order_list_button">
+	        <span class="order_list_button_text">{{order_status[item.status]}}</span>
+	      </button>
+	      <div class="order_list_goods_price">¥ {{item.total_amount}}</div>
+	    </div>
+	  </li>
+  </ul>
 </template>
 <script>
 export default {
@@ -73,45 +72,55 @@ export default {
 }
 </script>
 <style>
-.container {
+.order_list_container {
   background-color: #f3f3f3;
-  padding-top: 10px;
+  width: 100%;
+  padding: 10px 0;
+  box-sizing: border-box;
 }
 .contentContainer {
   flex: 1;
 }
 .order_list {
   width: 100%;
-  height: 170px;
   padding: 5px 10px;
   background-color: #ffffff;
   margin-bottom: 10px;
   box-sizing: border-box;
 }
+.order_list:last-child{
+	margin-bottom: 0;
+}
 .order_list_top {
   width: 100%;
-  height: 45px;
-  position: relative;
+  height: 35px;
   display: flex;
 }
 .order_list_business_name_tb {
-  width: 15px;
-  height: 15px;
-  margin-top: 15px;
+	position: absolute;
+	left: 0;
+	top: 10.7px;
+  width: 14px;
+  height: 14px;
   margin-right: 10px;
 }
 .order_list_business_name {
-  height: 45px;
-  line-height: 45px;
+	flex: 1;
+  height: 35px;
+  line-height: 35px;
   color: #333;
-  font-size: 16px;
+  font-size: 14px;
+  padding-left: 20px;
+  box-sizing: border-box;
   overflow: hidden;
-  flex:1
+  position: relative;
 }
 .order_list_order_state {
-  width: 70px;
-  height: 45px;
-  line-height: 45px;
+  display: inline-block;
+  padding: 0 10px;
+  box-sizing: border-box;
+  height: 35px;
+  line-height: 35px;
   color: #c4454e;
   font-size: 14px;
 }
@@ -128,15 +137,16 @@ export default {
   border-radius: 3px;
 }
 .order_list_goods_name {
+	display: flex;
   flex:1;
   height: 60px;
-  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
 }
 .order_list_goods_name_text {
+	display: inline-block;
   line-height: 25px;
-  color: #666;
+  color: #454545;
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -147,36 +157,36 @@ export default {
 }
 .order_list_bottom {
   width: 100%;
-  height: 45px;
+  height: 35px;
   display: flex;
   justify-content:space-between
 }
 .order_list_goods_price {
-  width: 70px;
-  height: 45px;
-  line-height: 45px;
+  display: inline-block;
+  padding: 0 10px;
+  box-sizing: border-box;
+  height: 35px;
+  line-height: 35px;
   color: #06c1ae;
   font-size: 14px;
-  /* flex: 1 */
 }
 .order_list_button {
-  width: 80px;
+  display: flex;
+  padding: 0 15px;
+  box-sizing: border-box;
   height: 25px;
-  border-radius: 25px;
-  line-height: 25px;
+  border-radius: 12.5px;
   border: 1px solid #c3646b;
   background-color: #ffffff;
-  padding-top: 0px;
-  padding-bottom: 0px;
-  margin: 10px 0 0;
-  text-align: center;
+  margin: 5px 0;
+  align-items: center;
 }
 .order_list_button_text {
+	display: inline-block;
   width: 100%;
-  height: 25px;
+  height: 23px;
+  line-height: 23px;
   font-size: 12px;
   color: #c3646b;
-  padding-left: 0;
-  padding-right: 0;
 }
 </style>

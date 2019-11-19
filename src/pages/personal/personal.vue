@@ -5,10 +5,10 @@
       <div class="personal_portrait_img_box">
         <image class="personal_portrait_img" :src="portrait" />
       </div>
-      <div style="width:100%;padding-left:74px;padding-right:80px">
+      <div class="personal_portrait_name_box">
         <span class="personal_portrait_name">{{name}}</span>
         <div class="personal_portrait_tel_box">
-          <span>{{tel}}</span>
+          <span class="personal_portrait_tel">{{tel}}</span>
         </div>
       </div>
       <button class="switch_button">
@@ -42,7 +42,7 @@
     </div>
     <!-- 收货菜单 -->
     <div class="menu_next_list_box">
-      <div class="menu_next_list">
+      <div class="menu_next_list" @click="handleToAddress()">
         <div class="menu_next_list_img_box">
           <image class="menu_next_list_img" src="../../static/images/shouhuodizhi.png" />
         </div>
@@ -71,7 +71,7 @@
 export default {
   data () {
     return {
-      name: '张三',
+      name: '蒙娜丽莎的微笑',
       portrait: 'https://facebook.github.io/react/logo-og.png',
       tel: '18888888888',
       isLogin: true,
@@ -108,6 +108,11 @@ export default {
       }
       mpvue.navigateTo({url})
     },
+    handleToAddress () {
+      console.log('收货地址')
+      let url = '/pages/personal/address/address/main'
+      mpvue.navigateTo({url})
+    },
     handleToafterSale () {
       console.log('去售后')
     }
@@ -120,14 +125,14 @@ export default {
   background-color: "#ffffff";
 }
 .personal_header {
+  display: flex;
   width: 100%;
   height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 25px;
-  padding-bottom: 25px;
+  padding: 25px 10px;
+  box-sizing: border-box;
   flex-direction: row;
-  border-bottom: 10px solid #f6f6f6;
+  align-items: center;
+  border-top: 1px solid #f3f3f3;
 }
 .personal_Top {
   width: 100%;
@@ -141,29 +146,33 @@ export default {
   justify-content: center;
 }
 .personal_portrait_img_box {
-  position: absolute;
-  left: 10px;
-  top: 25px;
-  z-index: 1;
   width: 64px;
   height: 64px;
   border-radius: 32px;
   justify-content: center;
   align-items: center;
-  margin-right: 10px;
 }
 .personal_portrait_img {
   width: 64px;
   height: 64px;
   border-radius: 32px;
 }
+.personal_portrait_name_box {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  margin: 0 10px;
+  height: 64px;
+  flex-wrap: wrap;
+}
 .personal_portrait_name {
+  display: block;
   width: 100%;
-  height: 32px;
-  line-height: 32px;
-  font-size: 18px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
   color: #545454;
-  margin-bottom: 8px;
+  margin-bottom: 3px;
 }
 .personal_Login {
   color: #545454;
@@ -172,66 +181,80 @@ export default {
   margin-left: 30px;
 }
 .personal_portrait_tel_box {
-  width: 95px;
-  height: 20px;
-  background: #f3f3f3 url('../../../static/images/phone.png') no-repeat 4px;
-  background-size: contain;
-  padding-left: 22px;
-  padding-right: 10px;
-  border-radius: 20px;
-}
-.personal_portrait_tel {
+  display: inline-block;
   width: auto;
   height: 20px;
+  background: #f3f3f3 url('../../../static/images/phone.png') no-repeat;
+  background-position: 10px 6px;
+  background-size: 10px 10px;
+  padding-left: 25px;
+  padding-right: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.personal_portrait_tel {
+  display: inline-block;
+  height: 20px;
   line-height: 20px;
-  font-size: 10px;
+  font-size: 11px;
   color: #666666;
+  float: left;
 }
 .switch_button {
-  position: absolute;
-  right: 10px;
-  top: 45px;
-  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
   height: 30px;
   background-color: #06c1ae;
   text-align: center;
-  line-height: 30px
+  line-height: 30px;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 .switch_button_text {
-  font-size: 14px;
+  display: inline-block;
+  line-height: 30px;
+  text-align: center;
+  margin-left: 8px;
+  box-sizing: border-box;
+  font-size: 12px;
   color: #fff;
 }
 .switch_button_img {
-  width: 12px;
-  height: 12px;
-  /* padding-left: 0; */
-  margin-left: -10px;
-  margin-right: 5px;
+  width: 14px;
+  height: 14px;
 }
+
 .menu_list_box {
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 5px;
+  padding: 10px 0;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: center;
   border-bottom: 10px solid #f6f6f6;
+  border-top: 10px solid #f6f6f6;
 }
 .menu_list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   width: 25%;
-  height: 80px;
+  height: 60px;
   text-align: center
 }
 .menu_list_img {
-  width: 35px;
-  height: 35px;
+  width: 30px;
+  height: 30px;
   display: inline-block;
 }
 .menu_list_text {
   display: block;
   width: 100%;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   text-align: center;
   font-size: 12px;
   color: #666666;
@@ -241,34 +264,39 @@ export default {
   height: auto;
   flex-wrap: wrap;
   padding-top: 10px;
-  padding-bottom: 5px;
+  box-sizing: border-box;
   flex-direction: row;
   border-bottom: 1px solid #f6f6f6;
 }
 .menu_next_list {
+  display: flex;
   width: 25%;
-  height: 80px;
-  text-align: center
-}
-.menu_next_list_img_box {
-  position: relative;
-  width: 45px;
-  height: 45px;
-  left: 50%;
-  border-radius: 45px;
-  background-color: #a6a6eb;
-  margin-left: -22.5px;
+  height: 60px;
+  margin-bottom: 10px;
   justify-content: center;
   align-items: center;
+  padding: 5px 0;
+  flex-wrap: wrap;
+}
+.menu_next_list_img_box {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+  background: #a6a6eb;
 }
 .menu_next_list_img {
-  width: 26px;
-  height: 26px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
 }
 .menu_next_list_text {
   width: 100%;
-  height: 30px;
-  line-height: 30px;
+  height: 20px;
+  line-height: 20px;
   text-align: center;
   font-size: 12px;
   color: #666666;
@@ -276,10 +304,7 @@ export default {
 .tuijian_box {
   width: 100%;
   background-color: #f3f3f3;
-  padding-left: 2%;
-  padding-right: 2%;
   padding-top: 15px;
-  padding-bottom: 15px;
   box-sizing: border-box;
 }
 .tuijian_title {
@@ -287,7 +312,7 @@ export default {
   height: 30px;
   line-height: 30px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   color: #666666;
   font-weight: bold;
   margin-bottom: 15px;
@@ -295,54 +320,59 @@ export default {
 .tuijian_list_box {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between
 }
 .tuijian_list {
-  width: 49%;
-  height: 250px;
+  width: 47vw;
+  height: auto;
   background-color: #ffffff;
-  margin-bottom: 2%;
+  margin-bottom: 2vw;
+  margin-left: 2vw;
 }
 .tuijian_list_img_box {
   width: 100%;
-  height: 170px;
+  height: 47vw;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  padding: 10px;
+  box-sizing: border-box;
 }
 .tuijian_list_img {
   width: 100%;
-  height: 170px;
+  height: calc(47vw - 20px);
 }
 .tuijian_list_price {
   height: 30px;
   padding-left: 10px;
   padding-right: 10px;
-  margin-top: 5px;
   flex-direction: row;
 }
 .tuijian_list_price_1 {
+	display: inline-block;
   width: auto;
   height: 30px;
   line-height: 30px;
   color: #06c1ae;
-  font-weight: bold;
+  font-weight: 400;
   margin-right: 5px;
   font-size: 18px;
 }
 .tuijian_list_price_2 {
+	display: inline-block;
   width: auto;
   height: 30px;
   line-height: 36px;
   color: #ababab;
   font-size: 10px;
-  text-decoration: "line-through";
+  text-decoration: line-through;
 }
 .tuijian_list_name {
+	display: inline-block;
   padding-left: 10px;
   padding-right: 10px;
-  height: 30px;
-  line-height: 15px;
+  height: 35px;
+  line-height: 17.5px;
+  margin-top: 5px;
   color: #777;
   font-size: 12px;
   margin-bottom: 15px;

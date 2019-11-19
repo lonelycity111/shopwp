@@ -68,7 +68,8 @@ export default {
   line-height: 61px;
   background-color: #ffffff;
   color: #585c64;
-  border-left: 5px solid #06c1ae
+  border-left: 5px solid #06c1ae;
+  box-sizing: border-box;
 }
 
 </style>

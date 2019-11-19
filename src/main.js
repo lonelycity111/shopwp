@@ -10,7 +10,7 @@ App.mpType = 'app'
 //   timeout: 5000 // 请求超时时间
 // })
 
-axios.defaults.baseURL = 'http://192.168.168.137:7002'
+axios.defaults.baseURL = 'http://sky.chinasky.net:7002'
 axios.defaults.withCredentials = true
 axios.defaults.timeout = 5000
 // axios.interceptors.request.use(

@@ -4,7 +4,7 @@
     <div class="rightContantSyle">
       <ul class="columnWrapperStyle">
         <li v-for="(item,index) in listData" :key="index" class="class_list_box" @click="handleToGooodsList(item)">
-            <image :src='BaseImg+item.icon' class="class_list_img" />
+            <image :src='BaseImg+item.icon' mode='widthFix' class="class_list_img" />
             <div class="class_list_text">{{item.name}}</div>
         </li>
       </ul>
@@ -74,16 +74,18 @@ export default {
   flex-wrap: wrap;
 }  
 .class_list_box {
-		width: 28%;
+		width: 33.333333%;
 		height: auto;
     margin-top: 10px;
-    margin-left:4.2%;
+    padding: 10px;
+    padding-bottom: 0;
+    box-sizing: border-box;
 		justify-content:center;
 		align-items: center
 }
 .class_list_img{
   width: 100%;
-  height: 100px;
+  height: auto;
 }
 .class_list_text {
 		width: 100%;

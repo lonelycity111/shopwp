@@ -6,6 +6,8 @@
         :current="currentTab"
         circular="true"
         indicator-dots="true"
+        indicator-color="rgba(0,0,0,.2)"
+        indicator-active-color="#06c1ae"
         :autoplay="autoplay"
         skip-hidden-item-layout="true"
         class="index_banner_swiper"
@@ -33,7 +35,6 @@
         </li>
       </ul>
     </div>
-    <div style="windth:100%;height:10px;background:#f3f3f3"></div>
     <div class="boutique_list">
       <div class="boutique_list_title_box">
         <div class="boutique_list_title_left"></div>
@@ -102,7 +103,7 @@ export default {
       .get('/recommend/list', {
         params: {
           pageNum: 1,
-          pageSize: 20
+          pageSize: 6
         }
       })
       .then(res => {
@@ -134,23 +135,25 @@ export default {
 .container {
   width: 100%;
   background-color: "#ffffff";
+  border-bottom: 1px solid #f3f3f3;
+  box-sizing: border-box;
 }
 .index_banner_img {
   width: 100%;
-  height: 200px;
-  background-size: cover;
+  height: calc(100vw / 2.545454);
 }
 .index_banner_swiper {
-  height: 200px;
+  height: calc(100vw / 2.545454);
   width: 100%;
 }
 .index_banner_list_box {
   width: 100%;
-  height: 200px;
+  height: calc(100vw / 2.545454);
 }
 .boutique_list {
   width: 100%;
   background-color: "#ffffff";
+  border-bottom: 10px solid #f3f3f3;
 }
 .boutique_list_title_box {
   width: 100%;
@@ -179,6 +182,7 @@ export default {
   width: 100%;
   height: 80px;
   padding: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #f0f0f0;
@@ -199,6 +203,7 @@ export default {
   height: 60px;
 }
 .boutique_list_option_name {
+	display: block;
   width: 100%;
   height: 40px;
   line-height: 20px;
@@ -215,15 +220,9 @@ export default {
   width: 50%;
   height: 15px;
   line-height: 15px;
-  font-size: 12;
+  font-size: 12px;
   color: #06c1ae;
-}
-.boutique_list_option_price_text {
-  width: 50%;
-  height: 15px;
-  line-height: 15px;
-  font-size: 14px;
-  color: #06c1ae;
+  float: left;
 }
 .boutique_list_option_xl_text {
   width: 50%;
@@ -231,7 +230,6 @@ export default {
   line-height: 15px;
   font-size: 12px;
   color: #787878;
-  margin-top: 5px;
   float: right;
 }
 .news_list_option {
@@ -240,6 +238,7 @@ export default {
   display: flex;
   flex-direction: row;
   padding: 10px 0;
+  box-sizing: border-box;
   border-bottom: 1px solid #f0f0f0;
 }
 .news_list_option_img_box {
@@ -261,10 +260,11 @@ export default {
   padding-right: 10px;
 }
 .news_list_option_details_title {
+	display: inline-block;
   width: 100%;
   height: 40px;
   line-height: 20px;
-  font-size: 14px;
+  font-size: 12px;
   color: #444;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -273,9 +273,11 @@ export default {
   -webkit-box-orient: vertical;
 }
 .news_list_option_details_time {
+	display: inline-block;
   width: 100%;
-  height: 20px;
-  line-height: 20px;
+  height: 15px;
+  line-height: 15px;
+  margin-top: 5px;
   font-size: 12px;
   color: #999;
 }

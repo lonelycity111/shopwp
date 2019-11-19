@@ -9,7 +9,9 @@
     "pages/personal/order/main",
     "pages/personal/main",
     "pages/index/news_detail/main",
-    "pages/index/home_detail/main"
+    "pages/index/home_detail/main",
+    "pages/personal/address/add_address/main",
+    "pages/personal/address/address/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

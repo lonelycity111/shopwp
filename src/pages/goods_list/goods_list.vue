@@ -27,14 +27,12 @@
             <image class="goods_list_img" :src='item.pic'/>
           </div>
           <div class="goods_list_details">
-            <div class="goods_list_name_box">
-              <span class="goods_list_name">{{item.name}}</span>
-            </div>
+            <div class="goods_list_name">{{item.name}}</div>
             <div class="goods_list_price_box">
               <span class="goods_list_price">¥ {{item.price}} <span class="goods_list_old_price">¥{{item.original_price}}</span></span>
               <div class="goods_list_stock">销量: {{item.sale}}</div>
             </div>
-            <span class="goods_list_describe">{{item.description}}</span>
+            <div class="goods_list_describe">{{item.description}}</div>
           </div>
       </li>
     </ul>
@@ -111,10 +109,10 @@ export default {
   background-color: "#ffffff";
 }
 .search_input {
-    width: 75%;
+    flex: 1;
     height: 30px;
-    line-height: 20px;
-    padding-left: 35px;
+    line-height: 30px;
+    padding-left: 30px;
     padding-right: 10px;
     font-size: 12px;
     background-color: #f0f2f5;
@@ -123,140 +121,145 @@ export default {
     margin-top: 2.5px;
 }
 .search_box {
-    height: 35px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 3%;
-    padding-right: 60px;
-    position: relative;
+		position: relative;
+		display: flex;
+		flex-direction: row;
+    height: 55px;
+		padding: 10px;
+		box-sizing: border-box;
     background-color: #ffffff
 }
 .search_box_tb {
-    position: absolute;
-    top: 7.5px;
-    left: 7.5px;
+		position: absolute;
+		left: 15px;
+		top: 16px;
     width: 20px;
     height: 20px;
-    z-index: 1
+    z-index: 1;
 }
 .search_button {
-    position: absolute;
-    top: 0;
-    right: 15px;
+	  display: inline-block;
+	  padding: 0 10px;
+	  box-sizing: border-box;
     height: 30px;
-    padding-top: 0;
-    padding-bottom: 0;
     background-color: #fff;
     text-align: center;
-    line-height: 30px;
+    margin-left: 10px;
+    margin-top: 2.5px;
+    border-color: #FFFFFF;
+    border-style: none;
+    outline: none;
+  }
+  .search_button::after{
+  	border: none;
   }
 .search_button_text {
-    width: 100%;
-    height: 35px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     font-size: 14px;
     color: #06c1ae;
-    padding-left: 0px;
-    padding-right: 0px;
+    float: left;
   }
 .sort_button_box {
     width: 100%;
-    height: 50px;
+    height: 30px;
     display: flex;
     flex-direction: row;
     border-bottom: 10px solid #f3f3f3
   }
 .sort_button {
-    width: 25%;
-    height: 40px;
-    justify-content: center
+    flex: 1;
+    height: 30px;
+    text-align: center;
   }
 .sort_button_text {
-    position: relative;
-    left: 50%;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
     text-align: center;
     font-size: 14px;
     color: #454545;
-    margin-left: -20px;
+    padding: 0 5px;
+    box-sizing: border-box;
   }
 .itemSelectedColor {
     border-bottom: 2px solid #06c1ae;  
     color: #06c1ae
 }
 .goods_list {
+	  display: flex;
     width: 100%;
     padding: 10px;
-    position: relative;
+    flex-direction: row;
+    box-sizing: border-box;
     border-bottom: 1px solid #f1f1f1;
     background-color: #ffffff
   }
 .goods_list_img_box {
-    position: absolute;
-    top: 10px;
-    left: 10px;
     width: 110px;
     height: 110px;
-    border-radius: 5px;
-    overflow: hidden
+		margin-right: 10px;
   }
 .goods_list_img {
     width: 110px;
     height: 110px;
-  }
+  } 
 .goods_list_details {
-    width: 100%;
+    flex: 1;
     height: 110px;
-    padding-left: 120px;
+    align-content: center;
 }
-.goods_list_name_box {
-    width: 100%;
-    height: 50px;
-    align-items: center;
-    flex-wrap: wrap;
-    flex-direction: row
-  }
 .goods_list_name {
-    height: 50px;
+    height: 40px;
     width: 100%;
-    line-height: 25px;
+    line-height: 20px;
     font-size: 14px;
-    color: #454545
+    color: #454545;
+    overflow:hidden;
+		text-overflow:ellipsis;
+		display:-webkit-box;
+		-webkit-line-clamp:2;
+		-webkit-box-orient:vertical;
   }
 .goods_list_price_box {
     width: 100%;
-    height: 40px;
+    height: 50px;
 }
 .goods_list_price {
-    width: 100%;
-    height: 20px;
-    line-height: 20px;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
     font-size: 14px;
-    color: #06c1ae
+    color: #06c1ae;
 }
 .goods_list_old_price {
-    width: 100%;
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
     color: #ababab;
     text-decoration: line-through
   }
 .goods_list_stock {
     width: 100%;
-    height: 20px;
-    line-height: 20px;
-    font-size: 10px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
     color: #888888
   }
 .goods_list_describe {
-    width: 100%;
     height: 20px;
     line-height: 20px;
     font-size: 12px;
-    color: #999999
+    color: #999999;
+    overflow:hidden;
+		text-overflow:ellipsis;
+		display:-webkit-box;
+		-webkit-line-clamp:1;
+		-webkit-box-orient:vertical;
+
   }
 .goods_list_tb {
     position: absolute;
