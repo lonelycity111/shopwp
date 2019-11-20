@@ -29,7 +29,7 @@
       <div class="goods_service">{{goods_service}}</div>
     </div>
     
-	  <div class="goods_specs_button" @click="()=>{if(this.goods_specs_list.length > 0){this.setModalVisible(true)}}">
+	  <div class="goods_specs_button" @click="()=>{if(this.goods_stock_list.length > 0){this.setModalVisible(true)}}">
 	    <div class="goods_specs_button_text1">规格</div>
 	    <div class="goods_specs_button_text2">{{Specif}}</div>
 	    <image class="goods_specs_button_img" src="../../static/images/more.png"/>
@@ -47,7 +47,7 @@
         <span class="shopping_cart_button_text">购物车</span>
       </div>
       <div class="bottom_button_box">
-      	<button class="purchase_button" @click="GoShoppingCart">加入购物车</button>
+      	<button class="purchase_button" @click="handleSetGoods">加入购物车</button>
       	<button class="purchase_button2" @click="handleToSettlement">立 即 购 买</button>
       </div>
     </div>
@@ -65,7 +65,7 @@
     				<image class="specs_goods_img" :src="goods_specs_top_img"/>
     			</div>
     			<div class="specs_goods_detiils_box">
-    				<p class="specs_goods_detiils_price">¥ {{goods_new_price}}</p>
+    				<p class="specs_goods_detiils_price">¥ {{model_price}}</p>
     				<p class="specs_goods_detiils_id">货号：{{goods_id}}</p>
     			</div>
     		</div>
@@ -73,19 +73,19 @@
     		<p class="specs_goods_title">选择产品规格</p>
 				
 				<ul class="specs_list_box">
-					<li v-for="(specs,index) in goods_specs_list" :key="index" @click="ClickSpecs(index)" :class="[{'specs_list_dq': index == default_index} , 'specs_list']">{{specs}}</li>
+					<li v-for="(item,index) in goods_stock_list" :key="index" @click="SpecsOnclick(item,index)" :class="[{'specs_list_dq': item == itemSelected} , 'specs_list']">{{item}}</li>
 				</ul>
     		
     		<div class="goods_num_box">
     			<p class="goods_num_title">购买数量：</p>
     			<div class="goods_btn_box">
-    				<button class="goods_num_btn"><image class="goods_num_btn_img" src="../../static/images/jia.png" /></button>
-    				<input type="number" :value="shop_num" class="goods_num_input"/>
-    				<button class="goods_num_btn"><image class="goods_num_btn_img" src="../../static/images/jian.png" /></button>
+    				<button class="goods_num_btn" @click="onButtonPress_jia"><image class="goods_num_btn_img" src="../../static/images/jia.png" /></button>
+    				<input type="number" v-model="shop_num" class="goods_num_input"/>
+    				<button class="goods_num_btn"  @click="onButtonPress_jian"><image class="goods_num_btn_img" src="../../static/images/jian.png"/></button>
     			</div>
     		</div>
     		
-    		<button class="tj_button">确认</button>
+    		<button class="tj_button" @click="setSpecifications(false)">确认</button>
     	</div>
     </div>
   </div>
@@ -95,7 +95,6 @@
 export default {
   data () {
     return {
-      default_index: 0,
       modalVisible: false,
       goods_img_number: 1,
       goods_img_list: [],
@@ -119,9 +118,10 @@ export default {
       address: '',
       goods_specs_top_img: '',
       goods_specs: [],
-      goods_specs_list: [],
+      goods_stock_list: [],
       goods_detail: '',
       goods_sub_title: '',
+      product_sn: 'jd5654575',
       shop_num: 1
     }
   },
@@ -130,7 +130,6 @@ export default {
     this.$axios
       .get(`/product/` + id)
       .then(res => {
-        console.log(res)
         let tempArr = []
         tempArr.push(res.data.data.pic)
         if (res.data.data.album_pics !== '') {
@@ -166,22 +165,71 @@ export default {
         this.goods_stock = res.data.data.stock
         this.goods_sub_title = res.data.data.sub_title
         this.goods_specs = res.data.data.sku_stock_list
-        this.goods_specs_list = tempStock
-        this.address = this.address_list_all[0]
+        this.goods_stock_list = tempStock
+        this.Specif = tempStock[0]
+        this.goods_id = id
+        this.goods_img_one = tempArr[0]
       }).catch((err) => {
         console.log(err)
       })
   },
   methods: {
     setModalVisible (visible) {
-	  this.modalVisible = visible
-	  this.model_price = this.goods_specs[0].price
-	//   this.goods_s
-    //   console.log(this.goods_specs_list)
+      this.modalVisible = visible
+      this.model_price = this.goods_specs[0].price
+      this.goods_specs_top_img = this.goods_img_list[0]
+      this.product_sn = this.goods_specs[0].sku_code
+      this.itemSelected = this.goods_stock_list[0]
     },
-    ClickSpecs: function (index) {
-      this.default_index = index
-      console.log(this.default_index)
+    SpecsOnclick (item, index) {
+      this.itemSelected = item
+      this.model_price = this.goods_specs[index].price
+      this.product_sn = this.goods_specs[index].sku_code
+    },
+    setSpecifications (visible) {
+      this.Specif = this.itemSelected
+      this.modalVisible = visible
+      this.goods_new_price = this.model_price
+    },
+    handleSetGoods () {
+      let shoppingCart = {}
+      shoppingCart.goods_img_one = this.goods_img_list[0]
+      shoppingCart.goods_name = this.goods_name
+      shoppingCart.goods_price = this.goods_price
+      shoppingCart.shop_num = 1
+      shoppingCart.goods_id = this.goods_id
+      shoppingCart.isChecked = true
+      if (mpvue.getStorageSync('ShoppingCatList')) {
+		let tempArr = mpvue.getStorageSync('ShoppingCatList')
+        let isGoods = mpvue.getStorageSync('ShoppingCatList').some(item => {
+          if (shoppingCart.goods_id === item.goods_id) {
+            item.shop_num = item.shop_num + 1
+            console.log(mpvue.getStorageSync('ShoppingCatList'))
+            mpvue.setStorageSync('ShoppingCatList', mpvue.getStorageSync('ShoppingCatList'))
+          }
+          return shoppingCart.goods_id === item.goods_id
+        })
+        console.log(isGoods)
+        if (isGoods === false) {
+          mpvue.setStorageSync('ShoppingCatList', mpvue.getStorageSync('ShoppingCatList').concat([shoppingCart]))
+        }
+      } else {
+        mpvue.setStorageSync('ShoppingCatList', [shoppingCart])
+      }
+    },
+    onButtonPress_jian () {
+      if (this.shop_num > 1) {
+        this.shop_num = this.shop_num - 1
+      } else {
+        this.shop_num = 1
+      }
+    },
+    onButtonPress_jia () {
+      if (this.shop_num < this.goods_stock) {
+        this.shop_num = this.shop_num + 1
+      } else {
+        this.shop_num = this.goods_stock
+      }
     }
   }
 }

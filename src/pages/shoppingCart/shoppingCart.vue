@@ -9,7 +9,7 @@
         </div>
         
         <div class="goods_option_details">
-          <image class="goods_option_details_img" :src="goods.goods_img"/>
+          <image class="goods_option_details_img" :src="goods.goods_img_one"/>
           
           <div class="goods_option_details_box">
             <p class="goods_option_details_name">{{goods.goods_name}}</p>
@@ -19,7 +19,7 @@
               
               <div class="goods_option_num">
                 <button class="goods_option_num_btn"><image class="goods_option_num_btn_img" src="../../static/images/jia.png" /></button>
-                <input class="goods_option_num_input" type="number" :value="goods.goods_num" disabled="disabled"/>
+                <input class="goods_option_num_input" type="number" v-model="goods.shop_num" disabled="disabled"/>
                 <button class="goods_option_num_btn"><image class="goods_option_num_btn_img" src="../../static/images/jian.png" /></button>
               </div>
             </div>
@@ -29,13 +29,13 @@
         
       </div>
       
-      <div class="shopping_cart_empty" v-show="ShoppingCatList == undefined || ShoppingCatList.length <= 0">
+      <div class="shopping_cart_empty" v-show="ShoppingCatList.length ==0">
         <image class="shopping_cart_empty_img" src="../../static/images/shopping_cart.png" />
         <p class="shopping_cart_empty_text"> 购物车是空的，快点去选购吧！</p>
       </div>
     </div>  
     
-    <div class="bottom_box">
+    <div class="bottom_box" v-show="ShoppingCatList.length > 0 ">
       <div class="all_button_box">
         <input class="all_button" type="checkbox" checked="checked"/>
         <p class="all_button_text">全选</p>
@@ -53,18 +53,17 @@
 export default {
   data () {
     return {
-      All_price: 2699,
-      ShoppingCatList: [
-        // {
-        //   goods_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573725646362&di=ebb96e3936813fec9edeed24746c2ff9&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fhb%2Fg5a4be363e77ad492C628F51beeF047b29.jpg',
-        //   goods_name: '产品名产品名产品名产品名产品名产品名产品名产品名产品名产品名',
-        //   goods_price: 2899,
-        //   goods_num: 1
-        // }
-      ]
+      All_price: 0,
+      ShoppingCatList: []
     }
   },
-  methods: {
+  onShow () {
+    if (mpvue.getStorageSync('ShoppingCatList')) {
+      this.ShoppingCatList = mpvue.getStorageSync('ShoppingCatList')
+    }
+  },
+  mounted () {
+    console.log('频繁触发')
   }
 }
 </script>
