@@ -199,17 +199,16 @@ export default {
       shoppingCart.shop_num = 1
       shoppingCart.goods_id = this.goods_id
       shoppingCart.isChecked = true
+      shoppingCart.goods_stock = this.goods_stock
       if (mpvue.getStorageSync('ShoppingCatList')) {
-		let tempArr = mpvue.getStorageSync('ShoppingCatList')
-        let isGoods = mpvue.getStorageSync('ShoppingCatList').some(item => {
+        let tempArr = mpvue.getStorageSync('ShoppingCatList')
+        let isGoods = tempArr.some(item => {
           if (shoppingCart.goods_id === item.goods_id) {
             item.shop_num = item.shop_num + 1
-            console.log(mpvue.getStorageSync('ShoppingCatList'))
-            mpvue.setStorageSync('ShoppingCatList', mpvue.getStorageSync('ShoppingCatList'))
+            mpvue.setStorageSync('ShoppingCatList', tempArr)
           }
           return shoppingCart.goods_id === item.goods_id
         })
-        console.log(isGoods)
         if (isGoods === false) {
           mpvue.setStorageSync('ShoppingCatList', mpvue.getStorageSync('ShoppingCatList').concat([shoppingCart]))
         }
@@ -628,7 +627,7 @@ export default {
 }
 
 .wx-swiper-dots.wx-swiper-dots-horizontal{
-  margin-bottom: -10px;
+  margin-bottom: -5px;
 }
 
 </style>

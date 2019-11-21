@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <ul class="add_address_form">
+    <ul class="edit_address_form">
       <li>
         <span>收件人： </span>
         <input type="text" placeholder="请输入收件人姓名" placeholder-style="color:#ccc;"/>
@@ -28,7 +28,9 @@
       </li>
     </ul>
     
-    <button class="submit_button">添 加</button>
+    <button class="submit_button">保存</button>
+    
+    <button class="submit_button2">删 除</button>
 
   </div>
 </template>
@@ -53,10 +55,10 @@ export default {
   height: 100vh;
   background: #f3f3f3;
 }
-.add_address_form{
+.edit_address_form{
   width: 100%;
 }
-.add_address_form>li{
+.edit_address_form>li{
   width: 100%;
   height: 51px;
   background: #FFFFFF;
@@ -68,27 +70,27 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
-.add_address_form>li:nth-child(2){
+.edit_address_form>li:nth-child(2){
   margin-bottom: 9px;
 }
-.add_address_form>li:nth-child(4){
+.edit_address_form>li:nth-child(4){
   margin-bottom: 9px;
 }
-.add_address_form>li>span{
+.edit_address_form>li>span{
   width: 90px;
   height: 50px;
   line-height: 50px;
   font-size: 16px;
   color: #454545;
 }
-.add_address_form>li>input{
+.edit_address_form>li>input{
   flex: 1;
   height: 50px;
   line-height: 50px;
   font-size: 16px;
   color: #454545;
 }
-.add_address_form>li>picker{
+.edit_address_form>li>picker{
   flex: 1;
   height: 50px;
   display: flex;
@@ -125,21 +127,22 @@ export default {
 .submit_button::after{
   border-style: none;
 }
-page{background-color: #efeff4;}
-.tui-picker-content{
-  padding: 30rpx;
+.submit_button2{
+  width: calc(100vw - 20px);
+  height: 45px;
+  line-height: 45px;
   text-align: center;
+  font-size: 16px;
+  color: #454545;
+  border-radius: 5px;
+  background: #fff;
+  padding: 0;
+  margin: 0;
+  margin-left: 10px;
+  margin-top: 10px;
+  box-shadow: 0 2px 5px #ccc;
 }
-.tui-picker-name{
-  height: 80rpx;
-  line-height: 80rpx;
-}
-.tui-picker-detail{
-  height: 80rpx;
-  line-height: 80rpx;
-  background-color: #fff;
-  font-size: 35rpx;
-  padding: 0 10px;
-  overflow: hidden;
+.submit_button2::after{
+  border-style: none;
 }
 </style>

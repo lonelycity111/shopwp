@@ -2,24 +2,17 @@
   <div class="container">
     <!-- 头部信息 -->
     <div class="personal_header" v-if="isLogin">
-      <div class="personal_portrait_img_box">
-        <image class="personal_portrait_img" :src="portrait" />
+      <div class="personal_image_box">
+        <image :src='portrait'/>
       </div>
-      <div class="personal_portrait_name_box">
-        <span class="personal_portrait_name">{{name}}</span>
-        <div class="personal_portrait_tel_box">
-          <span class="personal_portrait_tel">{{tel}}</span>
-        </div>
-      </div>
-      <button class="switch_button">
-        <image class="switch_button_img" src="../../static/images/switch_button_img.png" />
-        <span class="switch_button_text">切换账号</span>
-      </button>
+      <p class="personal_name">{{name}}</p>
+      <p class="personal_tel">{{tel}}</p>
     </div>
     <div class="personal_Top" v-else>
-      <span class="personal_Login2">注册</span>
-      <span class="personal_Login2">丨</span>
-      <span class="personal_Login2">登录</span>
+      <div class="personal_image_box">
+        <image src='../../static/images/login_tx.png'/>
+      </div>
+      <p class="personal_login_btn">点击登录</p>
     </div>
     <!-- 订单菜单 -->
     <div class="menu_list_box">
@@ -68,7 +61,9 @@
   </div>
 </template>
 <script>
+import LoginMixins from '../mixins/LoginMixins'
 export default {
+  mixins: [LoginMixins],
   data () {
     return {
       name: '蒙娜丽莎的微笑',
@@ -125,25 +120,58 @@ export default {
   background-color: "#ffffff";
 }
 .personal_header {
-  display: flex;
   width: 100%;
   height: auto;
-  padding: 25px 10px;
+  padding: 30px 0;
   box-sizing: border-box;
-  flex-direction: row;
-  align-items: center;
-  border-top: 1px solid #f3f3f3;
+  background: #06C1AE;
+}
+.personal_image_box{
+  width: 25vw;
+  height: 25vw;
+  border-radius: 12.5vw;
+  overflow: hidden;
+  margin-left: 37.5vw;
+  background: #FFFFFF;
+}
+.personal_image_box image {
+  width: 25vw;
+  height: 25vw;
+}
+.personal_name{
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  margin-top: 10px;
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+.personal_tel{
+  width: 100%;
+  height: 25px;
+  line-height: 25px;
+  color: #ffffff;
+  font-size: 14px;
+  text-align: center;
+}
+.personal_login_btn{
+  width: 100%;
+  height: 35px;
+  line-height: 35px;
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+  margin-top: 10px;
+  
 }
 .personal_Top {
   width: 100%;
   height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 25px;
-  padding-bottom: 25px;
-  flex-direction: row;
-  border-bottom: 10px solid #f6f6f6;
-  justify-content: center;
+  padding: 30px 0;
+  box-sizing: border-box;
+  background: #06C1AE;
 }
 .personal_portrait_img_box {
   width: 64px;

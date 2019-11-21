@@ -5,7 +5,7 @@
       <div class="goods_option" v-for="(goods,index) in ShoppingCatList" :key="index">
         
         <div class="goods_option_check_box">
-          <input class="goods_option_check" type="checkbox" checked="checked" />
+          <input class="goods_option_check" type="checkbox" :value="goods.goods_id" :checked="goods.isChecked"  @click="checkOne(index)"/>
         </div>
         
         <div class="goods_option_details">
@@ -18,9 +18,9 @@
               <p class="goods_option_price"><span>单价：</span><font>¥ {{goods.goods_price}}</font></p>
               
               <div class="goods_option_num">
-                <button class="goods_option_num_btn"><image class="goods_option_num_btn_img" src="../../static/images/jia.png" /></button>
+                <button class="goods_option_num_btn" @click="onButtonPress_jia(goods)"><image class="goods_option_num_btn_img" src="../../static/images/jia.png" /></button>
                 <input class="goods_option_num_input" type="number" v-model="goods.shop_num" disabled="disabled"/>
-                <button class="goods_option_num_btn"><image class="goods_option_num_btn_img" src="../../static/images/jian.png" /></button>
+                <button class="goods_option_num_btn" @click="onButtonPress_jian(goods)"><image class="goods_option_num_btn_img" src="../../static/images/jian.png" /></button>
               </div>
             </div>
             
@@ -37,13 +37,13 @@
     
     <div class="bottom_box" v-show="ShoppingCatList.length > 0 ">
       <div class="all_button_box">
-        <input class="all_button" type="checkbox" checked="checked"/>
+        <input class="all_button" type="checkbox" :checked="checkedAll"  @click="checkAll()" />
         <p class="all_button_text">全选</p>
       </div>
       
       <div class="settlement_box">
         <button class="settlement_box_settlement_btn">去结算</button>
-        <button class="settlement_box_del_btn">删 除</button>
+        <button class="settlement_box_del_btn" @click="deleteShopCart">删 除</button>
         <p class="settlement_box_price"><span>合计: </span><font>¥ {{All_price}}</font></p>
       </div>
     </div>
@@ -54,16 +54,103 @@ export default {
   data () {
     return {
       All_price: 0,
-      ShoppingCatList: []
+      ShoppingCatList: [],
+      checkedAll: true
     }
   },
   onShow () {
     if (mpvue.getStorageSync('ShoppingCatList')) {
       this.ShoppingCatList = mpvue.getStorageSync('ShoppingCatList')
+      this.All_price = 0
+      this.ShoppingCatList.forEach(item => {
+        if (item.isChecked === true) {
+          this.All_price += parseInt(item.goods_price) * item.shop_num
+        }
+      })
+      let Allcheck = this.ShoppingCatList.every(item => {
+        return item.isChecked === true
+      })
+      this.checkedAll = Allcheck
     }
   },
-  mounted () {
-    console.log('频繁触发')
+  methods: {
+    checkAll () {
+      if (this.checkedAll === false) {
+        this.All_price = 0
+        for (let i = 0; i < this.ShoppingCatList.length; i++) {
+          let item = this.ShoppingCatList[i]
+          item.isChecked = true
+          this.All_price += parseInt(item.goods_price) * item.shop_num
+        }
+      } else {
+        for (let i = 0; i < this.ShoppingCatList.length; i++) {
+          let item = this.ShoppingCatList[i]
+          item.isChecked = false
+        }
+      }
+      this.checkedAll = !this.checkedAll
+      mpvue.setStorageSync('ShoppingCatList', this.ShoppingCatList)
+    },
+    checkOne (index) {
+      if (this.ShoppingCatList[index].isChecked === false) {
+        this.ShoppingCatList[index].isChecked = true
+        let Allcheck = this.ShoppingCatList.every(item => {
+          return item.isChecked === true
+        })
+        this.checkedAll = Allcheck
+      } else {
+        this.ShoppingCatList[index].isChecked = false
+        this.checkedAll = false
+      }
+      this.All_price = 0
+      this.ShoppingCatList.forEach(item => {
+        if (item.isChecked === true) {
+          this.All_price += parseInt(item.goods_price) * item.shop_num
+        }
+      })
+      mpvue.setStorageSync('ShoppingCatList', this.ShoppingCatList)
+    },
+    deleteShopCart () {
+      let tempArr = this.ShoppingCatList.filter(item => {
+        return item.isChecked === false
+      })
+      console.log(tempArr)
+      this.ShoppingCatList = tempArr
+      if (tempArr.length === 0) {
+        mpvue.removeStorageSync('ShoppingCatList')
+      } else {
+        mpvue.setStorageSync('ShoppingCatList', tempArr)
+      }
+      this.All_price = 0
+    },
+    onButtonPress_jia (item) {
+      if (item.shop_num < item.goods_stock) {
+        item.shop_num = item.shop_num + 1
+      } else {
+        item.shop_num = item.goods_stock
+      }
+      this.All_price = 0
+      this.ShoppingCatList.forEach(item => {
+        if (item.isChecked === true) {
+          this.All_price += parseInt(item.goods_price) * item.shop_num
+        }
+      })
+      mpvue.setStorageSync('ShoppingCatList', this.ShoppingCatList)
+    },
+    onButtonPress_jian (item) {
+      if (item.shop_num > 1) {
+        item.shop_num = item.shop_num - 1
+      } else {
+        item.shop_num = 1
+      }
+      this.All_price = 0
+      this.ShoppingCatList.forEach(item => {
+        if (item.isChecked === true) {
+          this.All_price += parseInt(item.goods_price) * item.shop_num
+        }
+      })
+      mpvue.setStorageSync('ShoppingCatList', this.ShoppingCatList)
+    }
   }
 }
 </script>

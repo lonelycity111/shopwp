@@ -1,20 +1,20 @@
 <template>
   <div class="container">
     <div class="address_list">
-      <div class="address_option" v-for="(address,index) in addressList">
+      <div class="address_option" v-for="(address,index) in addressList" :key="index">
         <div class="address_details">
           <p class="address_name">{{address.name}}</p>
           <p class="address_tel"><span>电话： </span><font> {{address.tel}}</font></p>
           <p class="address_address"><span>地址： </span><font> {{address.address}}</font></p>
         </div>
-        <div class="address_edit_btn">编 辑</div>
+        <div class="address_edit_btn" @click="Edit_Address()">编 辑</div>
         <span class="default_address" v-show="address.address_default">默认</span>
       </div>
     </div>
     
     <div class="add_address_btn_box">
       <div class="add_address_btn"  @click="Add_Address()">
-        <image class="add_address_btn_img" src="../../../static/images/add_img.png"/>
+        <image class="add_address_btn_img" src="../../../../static/images/add_img.png"/>
         <p class="add_address_btn_text">添加新地址</p>
       </div>
     </div>
@@ -80,11 +80,18 @@ export default {
     Add_Address () {
       let url = '/pages/personal/address/add_address/main'
       mpvue.navigateTo({url})
+    },
+    Edit_Address () {
+      let url = '/pages/personal/address/edit_address/main'
+      mpvue.navigateTo({url})
     }
   }
 }
 </script>
 <style scoped>
+page {
+    background-color: #f3f3f3;
+}
 .container {
   display: flex;
   flex-wrap: wrap;
