@@ -9,46 +9,47 @@ App.mpType = 'app'
 //   withCredentials: true, // 允许携带cookie
 //   timeout: 5000 // 请求超时时间
 // })
+axios.defaults.headers.post['content-type'] = 'application/json'
 
 axios.defaults.baseURL = 'http://sky.chinasky.net:7002'
 axios.defaults.withCredentials = true
 axios.defaults.timeout = 5000
-// axios.interceptors.request.use(
-//   function (config) {
-//     if (config.url.indexOf('memberAddress') !== -1) {
-//     // console.log("有token",store.getState())
-//       config.headers.authorization = store.getState().token
-//         return config
-//     }
-//     if (config.url.indexOf('member') !== -1) {
-//      // store.subscribe(function(){ // 时时刻刻监控仓库中数据的变化，只要有变化，就会执行回调函数
-//     // console.log(store.getState())
-//       config.headers.authorization = store.getState().token
-//         return config
-//     }
-//     if (config.url.indexOf('order') !== -1) {
-//       config.headers.authorization = store.getState().token
-//         return config;
-//     }
-//     if (config.url.indexOf('returnApply') !== -1) {
-//       config.headers.authorization = store.getState().token
-//         return config;
-//     }
-//     if (config.url.indexOf('upload') !== -1) {
-//       config.headers.authorization = store.getState().token
-//         return config;
-//     }
-//     if (config.url.indexOf('update') !== -1) {
-//       console.log("有token", store.getState().token)
-//       config.headers.authorization = store.getState().token
-//         return config;
-//     }
-//       return config;
-//     },
-//   function (error) {
-//         return Promise.reject(error)
-//   }
-// )
+axios.defaults.transformRequest = [function (data) {
+  // 对 data 进行任意转换处理
+  return data
+}]
+axios.interceptors.request.use(
+  function (config) {
+    if (config.url.indexOf('memberAddress') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    if (config.url.indexOf('member') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    if (config.url.indexOf('order') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    if (config.url.indexOf('returnApply') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    if (config.url.indexOf('upload') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    if (config.url.indexOf('update') !== -1) {
+      config.headers.authorization = wx.getStorageSync('token')
+      return config
+    }
+    return config
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
 
 axios.defaults.adapter = function (config) {
   mpvue.showLoading({

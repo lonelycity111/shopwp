@@ -6,13 +6,13 @@
 	        <image src="../../../static/images/order_list_business_name_tb.png" class="order_list_business_name_tb"/>
 	        <p>深圳天络科技有限公司</p>    	
 	      </div>
-	      <div class="order_list_order_state">{{item.order_state}}</div>
+	      <!-- <div class="order_list_order_state">{{item.order_state}}</div> -->
 	    </div>
 	
 	    <div class="order_list_center">
-	      <image :src="item.album_pics" class="order_list_goods_img"/>
+	      <image :src="item.product_pic" class="order_list_goods_img"/>
 	      <div class="order_list_goods_name">
-	        <span class="order_list_goods_name_text">{{item.name}}</span>
+	        <span class="order_list_goods_name_text">{{item.product_name}}</span>
 	      </div>
 	    </div>
 	
@@ -20,7 +20,7 @@
 	      <button class="order_list_button">
 	        <span class="order_list_button_text">{{order_status[item.status]}}</span>
 	      </button>
-	      <div class="order_list_goods_price">¥ {{item.total_amount}}</div>
+	      <div class="order_list_goods_price">¥ {{item.product_price}}</div>
 	    </div>
 	  </li>
   </ul>
@@ -40,23 +40,30 @@ export default {
       }
     }
   },
+  methods: {
+    getMessage () {
+      let paramsAll = null
+      console.log(9999, this.orderId)
+      paramsAll = {
+        pageNum: 1,
+        pageSize: 20,
+        member_id: 1
+      }
+      if (this.orderId !== 0) {
+        paramsAll.order_status = this.orderId
+      }
+      this.$axios.get('/order/item/list', {
+        params: paramsAll
+      }).then(res => {
+        console.log(res)
+        this.listData = res.data.data.list
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+  },
   mounted () {
-    let paramsAll = {
-      pageNum: 1,
-      pageSize: 20,
-      member_id: 1
-    }
-    if (this.orderId) {
-      paramsAll.order_status = this.orderId
-    }
-    this.$axios.get('http://192.168.168.137:3001/mock/31/order/item/list', {
-      params: paramsAll
-    }).then(res => {
-      console.log(res)
-      this.listData = res.data.data.list
-    }).catch(err => {
-      console.log(err)
-    })
+    this.getMessage()
   },
   props: {
     orderId: {
@@ -66,7 +73,7 @@ export default {
   },
   watch: {
     orderId () {
-      console.log(this.orderId)
+      this.getMessage()
     }
   }
 }

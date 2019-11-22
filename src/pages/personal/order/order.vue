@@ -1,19 +1,19 @@
 <template>
   <div class="container">
     <div class="sort_button_box">
-      <div class="sort_button" @click="chooseTab(0)">
+      <div class="sort_button" @click="chooseTab(0,0)">
         <span class="sort_button_text" :class="itemSelected==0?'itemSelectedColor':''">全部</span>
       </div>
-      <div class="sort_button" @click="chooseTab(1,0)">
+      <div class="sort_button" @click="chooseTab(1,2)">
         <span class="sort_button_text" :class="itemSelected==1?'itemSelectedColor':''">待付款</span>
       </div>
-      <div class="sort_button" @click="chooseTab(2,2)">
+      <div class="sort_button" @click="chooseTab(2,3)">
         <span class="sort_button_text" :class="itemSelected==2?'itemSelectedColor':''">待收货</span>
       </div>
-      <div class="sort_button" @click="chooseTab(3,3)">
+      <div class="sort_button" @click="chooseTab(3,4)">
         <span class="sort_button_text" :class="itemSelected==3?'itemSelectedColor':''">已完成</span>
       </div>
-      <div class="sort_button" @click="chooseTab(4,4)">
+      <div class="sort_button" @click="chooseTab(4,5)">
         <span class="sort_button_text" :class="itemSelected==4?'itemSelectedColor':''">已取消</span>
       </div>
     </div>

@@ -1,26 +1,26 @@
 <template>
   <div class="container">
     <!-- 头部信息 -->
-    <div class="personal_header" v-if="isLogin">
+    <div class="personal_header" v-if="userInfo">
       <div class="personal_image_box">
-        <image :src='portrait'/>
+        <open-data type="userAvatarUrl" ></open-data>
       </div>
-      <p class="personal_name">{{name}}</p>
-      <p class="personal_tel">{{tel}}</p>
+        <open-data class="personal_name" type="userNickName" ></open-data>
+      <!-- <p class="personal_tel">{{tel}}</p> -->
     </div>
-    <div class="personal_Top" v-else>
+    <div class="personal_header" v-else>
       <div class="personal_image_box">
         <image src='../../static/images/login_tx.png'/>
       </div>
-      <p class="personal_login_btn">点击登录</p>
+      <button class="personal_login_btn"  open-type="getUserInfo" @getuserinfo="getuserinfo" >点击登录</button>
     </div>
     <!-- 订单菜单 -->
     <div class="menu_list_box">
-      <div class="menu_list" @click="handleToOrder(1, 0)">
+      <div class="menu_list" @click="handleToOrder(1, 2)">
         <image class="menu_list_img" src="../../static/images/daifukuan.png" />
         <span class="menu_list_text">待付款</span>
       </div>
-      <div class="menu_list" @click="handleToOrder(2, 2)">
+      <div class="menu_list" @click="handleToOrder(2, 3)">
         <image class="menu_list_img" src="../../static/images/daishouhuo.png" />
         <span class="menu_list_text">待收货</span>
       </div>
@@ -28,7 +28,7 @@
         <image class="menu_list_img" src="../../static/images/shouhoutuikuan.png" />
         <span class="menu_list_text">售后/退款</span>
       </div>
-      <div class="menu_list" @click="handleToOrder(0)">
+      <div class="menu_list" @click="handleToOrder(0, 0)">
         <image class="menu_list_img" src="../../static/images/quanbudingdan.png" />
         <span class="menu_list_text">全部订单</span>
       </div>
@@ -66,17 +66,22 @@ export default {
   mixins: [LoginMixins],
   data () {
     return {
-      name: '蒙娜丽莎的微笑',
-      portrait: 'https://facebook.github.io/react/logo-og.png',
-      tel: '18888888888',
-      isLogin: true,
+      userInfo: null,
+      token: null,
       listData: []
+    }
+  },
+  onShow () {
+    if (wx.getStorageSync('userInfo')) {
+      this.userInfo = wx.getStorageSync('userInfo')
+    }
+    if (wx.getStorageSync('token')) {
+      this.token = wx.getStorageSync('token')
     }
   },
   mounted () {
     this.$axios.get('/recommend/list?pageNum=1&pageSize=20')
       .then(res => {
-        console.log(res)
         this.listData = res.data.data.list
       })
       .catch(err => {
@@ -84,6 +89,10 @@ export default {
       })
   },
   methods: {
+    getuserinfo (e) {
+      this.wxLogin(e)
+      this.userInfo = e.mp.detail.userInfo
+    },
     handleToGoodsDetail (id) {
       let url = '/pages/goods_detail/main?id=' + id
       mpvue.navigateTo({url})
@@ -125,13 +134,16 @@ export default {
   padding: 30px 0;
   box-sizing: border-box;
   background: #06C1AE;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center
 }
 .personal_image_box{
   width: 25vw;
   height: 25vw;
   border-radius: 12.5vw;
   overflow: hidden;
-  margin-left: 37.5vw;
   background: #FFFFFF;
 }
 .personal_image_box image {
@@ -157,14 +169,18 @@ export default {
   text-align: center;
 }
 .personal_login_btn{
-  width: 100%;
-  height: 35px;
-  line-height: 35px;
+  width: 50%;
+  height: 45px;
+  line-height: 45px;
   color: #ffffff;
   font-size: 20px;
   text-align: center;
   margin-top: 10px;
-  
+  background: none;
+  border: none;
+}
+.personal_login_btn::after{
+  border: none;
 }
 .personal_Top {
   width: 100%;

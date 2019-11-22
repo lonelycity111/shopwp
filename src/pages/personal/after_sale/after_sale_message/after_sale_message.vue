@@ -14,9 +14,9 @@
       <div class="goods_messages_bottom">
         <span>申请数量：</span>
         <div class="goods_btn_box">
-          <!-- <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jia.png" /></button> -->
+          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jia.png" /></button>
           <input type="number" :value="goods_num" class="goods_num_input" disabled="disabled"/>
-          <!-- <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jian.png" /></button> -->
+          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jian.png" /></button>
         </div>
       </div>
     </div>
@@ -281,7 +281,7 @@ page{
   font-size: 14px;
   color: #787878;
   line-height: 50px;
-  /* background: url(../../../../../dist/wx/static/images/down_tb.png) no-repeat right center; */
+  background: url('../../../../../static/images/down_tb.png') no-repeat right center;
   background-size: 30px 30px;
   padding-right: 30px;
   box-sizing: border-box;
@@ -328,7 +328,7 @@ page{
   color: #06C1AE;
   border-bottom: 1px solid #f3f3f3;
   box-sizing: border-box;
-  /* background: url(../../../../../dist/wx/static/images/more.png) no-repeat center right; */
+  background: url('../../../../../static/images/more.png') no-repeat center right;
   background-size: 20px 20px;
   margin: 0 10px;
 }
