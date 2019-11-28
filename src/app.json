@@ -17,7 +17,8 @@
     "pages/personal/after_sale/main",
     "pages/personal/after_sale/after_sale_message/main",
     "pages/personal/after_sale/after_sale_progress/main",
-    "pages/personal/after_sale/after_sale_success/main"
+    "pages/personal/after_sale/after_sale_success/main",
+    "pages/personal/logistics/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
