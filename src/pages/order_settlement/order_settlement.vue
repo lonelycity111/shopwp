@@ -5,21 +5,22 @@
       <div class="address_details_box">
         <p>
           <span>{{address_list[address_index].name}}</span>
-          <font>{{address_list[address_index].tel}}</font>
+          <font>{{address_list[address_index].phone_number}}</font>
         </p>
-        <p>{{address_list[address_index].address}}</p>
+        <p v-if='address_list[address_index].province == address_list[address_index].city'>{{address_list[address_index].province + address_list[address_index].city + address_list[address_index].region + address_list[address_index].detail_address}}</p>
+        <p v-else>{{address_list[address_index].province + address_list[address_index].city + address_list[address_index].region + address_list[address_index].detail_address}}</p>
       </div>
       <image src='../../static/images/address_tb2.png'/>
     </div>
     
     <div class="goods_list_box">
       <div class="goods_option" v-for='(item,index) in goods_list' :key='index'>
-        <image :src="item.goods_img"/>
+        <image :src="item.goods_img_one"/>
         <div class="goods_option_details">
           <p>{{item.goods_name}}</p>
           <p>
             <span>¥ {{item.goods_price}}</span>
-            <font>数量： {{item.goods_num}}</font>
+            <font>数量： {{item.shop_num}}</font>
           </p>
         </div>
       </div>
@@ -29,10 +30,10 @@
       <p><span>商品总价：</span><font>¥ {{goods_AllPrice}}</font></p>
       <p><span>快递费：</span><font>¥ {{express_fee}}</font></p>
       <p><span>优惠：</span><font>¥ - {{discount_price}}</font></p>
-      <p><span>应支付：</span><font>¥ {{goods_AllPrice + express_fee - discount_price}}</font></p>
+      <p><span>应支付：</span><font>¥ {{payment_price}}</font></p>
     </div>
   
-    <button class="payment_button">支付 {{goods_AllPrice + express_fee - discount_price}} 元</button>
+    <button class="payment_button">支付 {{payment_price}} 元</button>
     
     
     <div class="address_model" v-if='address_model'>
@@ -41,9 +42,10 @@
         <li v-for='(item,index) in address_list' :key='index' @click='ChoiceAddress(index)'>
           <p>
             <span>{{item.name}}</span>
-            <font>{{item.tel}}</font>
+            <font>{{item.phone_number}}</font>
           </p>
-          <p>{{item.address}}</p>
+          <p v-if='item.province == item.city'>{{item.city + item.region + item.detail_address}}</p>
+          <p v-else>{{item.province + item.city + item.region + item.detail_address}}</p>
         </li>
       </ul>
     </div>
@@ -55,45 +57,11 @@ export default {
     return {
       address_model: false,
       address_index: 0,
-      address_list: [
-        {
-          name: '蒙娜丽莎',
-          tel: 15851431313,
-          address: '地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址地'
-        },
-        {
-          name: '江户川柯南',
-          tel: 15851431313,
-          address: '地址地址地址地址地址'
-        },
-        {
-          name: '蒙奇D路飞',
-          tel: 15851431313,
-          address: '地址地址地址地址地址地址地址地址地址地址地址'
-        }
-      ],
-      goods_list: [
-        {
-          goods_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573725646362&di=ebb96e3936813fec9edeed24746c2ff9&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fhb%2Fg5a4be363e77ad492C628F51beeF047b29.jpg',
-          goods_name: '产品名产品名产品名产品名产品名产品名产品名产品名产品名产品名',
-          goods_price: 2899,
-          goods_num: 1
-        },
-        {
-          goods_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573725646362&di=ebb96e3936813fec9edeed24746c2ff9&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fhb%2Fg5a4be363e77ad492C628F51beeF047b29.jpg',
-          goods_name: '产品名产品名产品名产品名产品名产品名产品名产品名产品名产品名',
-          goods_price: 2899,
-          goods_num: 1
-        },
-        {
-          goods_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1573725646362&di=ebb96e3936813fec9edeed24746c2ff9&imgtype=0&src=http%3A%2F%2Fimg006.hc360.cn%2Fhb%2Fg5a4be363e77ad492C628F51beeF047b29.jpg',
-          goods_name: '产品名产品名产品名产品名产品名产品名产品名产品名产品名产品名',
-          goods_price: 2899,
-          goods_num: 1
-        }
-      ],
-      goods_AllPrice: 2999, // 商品总价
+      address_list: [],
+      goods_list: [],
+      goods_AllPrice: 0, // 商品总价
       express_fee: 20, // 快递费
+      payment_price: 0,
       discount_price: 0 // 优惠价格
     }
   },
@@ -105,6 +73,15 @@ export default {
       this.address_model = false
       this.address_index = index
     }
+  },
+  onShow () {
+    this.goods_AllPrice = 0
+    this.address_list = mpvue.getStorageSync('addressList')
+    this.goods_list = mpvue.getStorageSync('order_settlement')
+    mpvue.getStorageSync('order_settlement').forEach(item => {
+      this.goods_AllPrice += item.goods_price * item.shop_num
+    })
+    this.payment_price = this.goods_AllPrice + this.express_fee
   }
 }
 </script>

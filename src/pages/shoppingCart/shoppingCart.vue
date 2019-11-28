@@ -42,7 +42,7 @@
       </div>
       
       <div class="settlement_box">
-        <button class="settlement_box_settlement_btn">去结算</button>
+        <button class="settlement_box_settlement_btn" open-type="getUserInfo" @getuserinfo="getuserinfo">去结算</button>
         <button class="settlement_box_del_btn" @click="deleteShopCart">删 除</button>
         <p class="settlement_box_price"><span>合计: </span><font>¥ {{All_price}}</font></p>
       </div>
@@ -50,7 +50,9 @@
   </div>
 </template>
 <script>
+import LoginMixins from '../mixins/LoginMixins'
 export default {
+  mixins: [LoginMixins],
   data () {
     return {
       All_price: 0,
@@ -150,6 +152,15 @@ export default {
         }
       })
       mpvue.setStorageSync('ShoppingCatList', this.ShoppingCatList)
+    },
+    getuserinfo (e) {
+      if (wx.getStorageSync('userInfo')) {
+        mpvue.setStorageSync('order_settlement', this.ShoppingCatList)
+        let url = '/pages/order_settlement/main'
+        mpvue.navigateTo({url})
+      } else {
+        this.wxLogin(e, this.getuserinfo)
+      }
     }
   }
 }

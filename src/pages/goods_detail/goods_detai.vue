@@ -48,7 +48,7 @@
       </div>
       <div class="bottom_button_box">
       	<button class="purchase_button" @click="handleSetGoods">加入购物车</button>
-      	<button class="purchase_button2" @click="handleToSettlement">立 即 购 买</button>
+      	<button class="purchase_button2" open-type="getUserInfo" @getuserinfo="getuserinfo">立 即 购 买</button>
       </div>
     </div>
     
@@ -92,26 +92,20 @@
   
 </template>
 <script>
+import LoginMixins from '../mixins/LoginMixins'
 export default {
+  mixins: [LoginMixins],
   data () {
     return {
       modalVisible: false,
-      goods_img_number: 1,
       goods_img_list: [],
       goods_name: '',
       promotion_status: true,
       goods_price: 298,
       goods_new_price: 4653,
       goods_stock: 651334,
-      goods_id: 'jd5654575',
+      goods_id: '',
       goods_service: '7天无理由退货，货到付款，免邮费，一年保修，下单立减50元',
-      address_list_all: [
-        '广东省深圳市福田区车公庙地铁站世纪豪庭大厦21楼21C',
-        '广东省深圳市福田区车公庙地铁站世纪豪庭大厦21楼22C',
-        '广东省深圳市福田区车公庙地铁站世纪豪庭大厦21楼23C',
-        '广东省深圳市福田区车公庙地铁站世纪豪庭大厦21楼24C'
-      ],
-      address_dq: '选择收货地址',
       itemSelected: '',
       model_price: 0,
       Specif: '请选择产品规格',
@@ -214,6 +208,20 @@ export default {
         }
       } else {
         mpvue.setStorageSync('ShoppingCatList', [shoppingCart])
+      }
+      wx.showToast({
+        title: '已加入购物车',
+        icon: 'success',
+        duration: 1000
+      })
+    },
+    getuserinfo (e) {
+      if (wx.getStorageSync('userInfo')) {
+        mpvue.setStorageSync('order_settlement', [{goods_img_one: this.goods_img_list[0], goods_name: this.goods_name, goods_price: this.goods_price, shop_num: 1, goods_id: this.goods_id, goods_stock: this.goods_stock}])
+        let url = '/pages/order_settlement/main'
+        mpvue.navigateTo({url})
+      } else {
+        this.wxLogin(e, this.getuserinfo)
       }
     },
     onButtonPress_jian () {
@@ -597,7 +605,6 @@ export default {
 	height: 20px;
 }
 .goods_num_input{
-	display: inline-block;
 	padding: 0 10px;
 	box-sizing: border-box;
 	height: 25px;

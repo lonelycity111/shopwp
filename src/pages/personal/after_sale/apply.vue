@@ -4,16 +4,16 @@
       <p class="store_title"><image src="../../../static/images/order_list_business_name_tb.png"/><span>深圳天洛科技</span></p>
       <div class="goods_details">
         <div class="goods_details_top">
-          <image :src="item.goods_img"/>
-          <p>{{item.goods_name}}</p>
+          <image :src="item.product_pic"/>
+          <p>{{item.product_name}}</p>
         </div>
         <p class="goods_details_bottom">
-          <span>数量： {{item.goods_num}}</span>
-          <font>¥ {{item.goods_allPrice}}</font>
+          <span>数量： {{item.product_quantity}}</span>
+          <font>¥ {{item.product_price}}</font>
         </p>
       </div>
       <div class="bottom_btn_box">
-        <span class="bottom_btn" @click="handleToafterSaleMessage()">申请售后</span>
+        <span class="bottom_btn" @click="handleToafterSaleMessage(item)">申请售后</span>
       </div>
     </li>
   </ul>
@@ -22,48 +22,27 @@
 export default {
   data () {
     return {
-      listData: [
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/5ac1bf58Ndefaac16.jpg',
-          goods_name: '小米8 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 1,
-          goods_allPrice: 3699
-        },
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '小米9 全面屏游戏智能手机全面屏游戏智能手机全面屏游戏智能手机全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 2,
-          goods_allPrice: 7398
-        },
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '小米10 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 3,
-          goods_allPrice: 11097
-        },
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '小米10 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 3,
-          goods_allPrice: 11097
-        },
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '小米10 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 3,
-          goods_allPrice: 11097
-        },
-        {
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '小米10 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 3,
-          goods_allPrice: 11097
-        }
-      ]
+      listData: []
     }
   },
+  mounted () {
+    let memberId = mpvue.getStorageSync('member_id')
+    this.$axios.get('/order/item/list', {
+      params: {
+        pageNum: 1,
+        pageSize: 20,
+        member_id: memberId,
+        order_status: 2
+      }
+    }).then(res => {
+      this.listData = res.data.data.list
+    }).catch(err => {
+      console.log(err)
+    })
+  },
   methods: {
-    handleToafterSaleMessage () {
+    handleToafterSaleMessage (item) {
+      mpvue.setStorageSync('afterSaleMessage', item)
       let url = '/pages/personal/after_sale/after_sale_message/main'
       mpvue.navigateTo({url})
     }

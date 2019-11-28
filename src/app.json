@@ -11,7 +11,13 @@
     "pages/index/news_detail/main",
     "pages/index/home_detail/main",
     "pages/personal/address/add_address/main",
-    "pages/personal/address/address/main"
+    "pages/personal/address/edit_address/main",
+    "pages/personal/address/address/main",
+    "pages/order_settlement/main",
+    "pages/personal/after_sale/main",
+    "pages/personal/after_sale/after_sale_message/main",
+    "pages/personal/after_sale/after_sale_progress/main",
+    "pages/personal/after_sale/after_sale_success/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

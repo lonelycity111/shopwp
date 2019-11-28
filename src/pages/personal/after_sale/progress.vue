@@ -2,20 +2,20 @@
   <ul class="handle_list">
     <li v-for="(item,index) in listData" :key="index">
       <p class="handle_list_title">
-        <span>服务单号： {{item.service_number}}</span>
+        <span>服务单号： {{item.order_sn}}</span>
         <font>退货申请</font>
       </p>
       <div class="handle_goods_top">
-        <image :src="item.goods_img"/>
-        <p>{{item.goods_name}}</p>
+        <image :src="item.product_pic"/>
+        <p>{{item.product_name}}</p>
       </div>
       <div class="handle_goods_center">
-        <span>数量： {{item.goods_num}}</span>
-        <font>¥ {{item.goods_allPrice}}</font>
+        <span>数量： {{item.product_quantity}}</span>
+        <font>¥ {{item.product_price}}</font>
       </div>
       <div class="handle_goods_bottom" @click="ScheduleQuery()">
-        <span>{{item.service_state}}</span>
-        <p>{{item.service_reason}}</p>
+        <span>退货中</span>
+        <p>不合适</p>
         <image src="../../../static/images/order_list_bottom_tb.png"/>
       </div>
       <div class="handle_cancel_btn_box">
@@ -28,33 +28,23 @@
 export default {
   data () {
     return {
-      listData: [
-        {
-          service_number: 201911191551,
-          service_state: '退货中',
-          service_reason: '不合适',
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/5ac1bf58Ndefaac16.jpg',
-          goods_name: '小米8 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 2,
-          goods_allPrice: 3699
-        },
-        {
-          service_number: 201911191551,
-          service_state: '退货中',
-          service_reason: '图不符实',
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '华为 HUAWEI P20',
-          goods_num: 1,
-          goods_allPrice: 1299
-        }
-      ]
+      listData: []
     }
   },
-  methods: {
-    ScheduleQuery () {
-      let url = '/pages/personal/after_sale/after_sale_progress/main'
-      mpvue.navigateTo({url})
-    }
+  mounted () {
+    let memberId = mpvue.getStorageSync('member_id')
+    this.$axios.get('/order/item/list', {
+      params: {
+        pageNum: 1,
+        pageSize: 20,
+        member_id: memberId,
+        order_status: 3
+      }
+    }).then(res => {
+      this.listData = res.data.data.list
+    }).catch(err => {
+      console.log(err)
+    })
   }
 }
 </script>

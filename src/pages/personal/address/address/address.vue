@@ -4,16 +4,16 @@
       <div class="address_option" v-for="(address,index) in addressList" :key="index">
         <div class="address_details">
           <p class="address_name">{{address.name}}</p>
-          <p class="address_tel"><span>电话： </span><font> {{address.tel}}</font></p>
-          <p class="address_address"><span>地址： </span><font> {{address.address}}</font></p>
+          <p class="address_tel"><span>电话： </span><font> {{address.phone_number}}</font></p>
+          <p class="address_address"><span>地址： </span><font> {{address.province + address.city + address.region + address.detail_address}}</font></p>
         </div>
-        <div class="address_edit_btn" @click="Edit_Address()">编 辑</div>
-        <span class="default_address" v-show="address.address_default">默认</span>
+        <div class="address_edit_btn" @click="Edit_Address(address)">编 辑</div>
+        <span class="default_address" v-show="address.default_status">默认</span>
       </div>
     </div>
     
     <div class="add_address_btn_box">
-      <div class="add_address_btn"  @click="Add_Address()">
+      <div class="add_address_btn"  @click="Add_Address">
         <image class="add_address_btn_img" src="../../../../static/images/add_img.png"/>
         <p class="add_address_btn_text">添加新地址</p>
       </div>
@@ -24,64 +24,30 @@
 export default {
   data () {
     return {
-      addressList: [
-        {
-          address_default: true,
-          name: '江户川柯南',
-          tel: '13845678912',
-          address: '地址地址地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地址地址地址地址地址地址地址地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '蒙娜丽莎的微笑',
-          tel: '13845678912',
-          address: '地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地址地址地址地址地址地址地址地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地址地址地址地址地址地址地址地址地址地址'
-        },
-        {
-          address_default: false,
-          name: '真新镇小智',
-          tel: '13845678912',
-          address: '地址地址地'
-        }
-      ]
+      addressList: []
     }
+  },
+  mounted () {
+    console.log(wx.getStorageSync('member_id'))
+    let memberId = wx.getStorageSync('member_id')
+    this.$axios.get('/memberAddress/list', {
+      params: {
+        pageNum: 1,
+        pageSize: 20,
+        member_id: memberId
+      }
+    }).then(res => {
+      console.log(res)
+      this.addressList = res.data.data.list
+    })
   },
   methods: {
     Add_Address () {
       let url = '/pages/personal/address/add_address/main'
       mpvue.navigateTo({url})
     },
-    Edit_Address () {
+    Edit_Address (address) {
+      wx.setStorageSync('edit_address', address)
       let url = '/pages/personal/address/edit_address/main'
       mpvue.navigateTo({url})
     }

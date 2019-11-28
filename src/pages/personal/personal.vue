@@ -66,21 +66,26 @@ export default {
   mixins: [LoginMixins],
   data () {
     return {
-      userInfo: null,
+      userInfo: false,
       token: null,
       listData: []
     }
   },
   onShow () {
-    if (wx.getStorageSync('userInfo')) {
-      this.userInfo = wx.getStorageSync('userInfo')
+    if (wx.getStorageSync('userInfo') !== '') {
+      this.userInfo = true
     }
     if (wx.getStorageSync('token')) {
       this.token = wx.getStorageSync('token')
     }
   },
   mounted () {
-    this.$axios.get('/recommend/list?pageNum=1&pageSize=20')
+    this.$axios.get('/recommend/list', {
+      params: {
+        pageNum: 1,
+        pageSize: 6
+      }
+    })
       .then(res => {
         this.listData = res.data.data.list
       })
@@ -89,9 +94,11 @@ export default {
       })
   },
   methods: {
-    getuserinfo (e) {
-      this.wxLogin(e)
-      this.userInfo = e.mp.detail.userInfo
+    async getuserinfo (e) {
+      await this.wxLogin(e)
+      if (wx.getStorageSync('userInfo') !== '') {
+        this.userInfo = true
+      }
     },
     handleToGoodsDetail (id) {
       let url = '/pages/goods_detail/main?id=' + id
@@ -104,7 +111,6 @@ export default {
           console.log('来拉', index)
           url = '/pages/personal/order/main?index=' + index
         } else {
-          console.log('来拉a', orderid)
           url = '/pages/personal/order/main?index=' + index + '&orderid=' + orderid
         }
       } else {
@@ -113,12 +119,12 @@ export default {
       mpvue.navigateTo({url})
     },
     handleToAddress () {
-      console.log('收货地址')
       let url = '/pages/personal/address/address/main'
       mpvue.navigateTo({url})
     },
     handleToafterSale () {
-      console.log('去售后')
+      let url = '/pages/personal/after_sale/main'
+      mpvue.navigateTo({url})
     }
   }
 }

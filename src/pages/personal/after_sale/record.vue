@@ -6,16 +6,16 @@
         <font>退货申请</font>
       </p>
       <div class="record_goods_top">
-        <image :src="item.goods_img"/>
-        <p>{{item.goods_name}}</p>
+        <image :src="item.product_pic"/>
+        <p>{{item.product_name}}</p>
       </div>
       <div class="record_goods_center">
-        <span>数量： {{item.goods_num}}</span>
-        <font>¥ {{item.goods_allPrice}}</font>
+        <span>数量： {{item.product_quantity}}</span>
+        <font>¥ {{item.product_price}}</font>
       </div>
       <div class="record_goods_bottom" @click="ScheduleQuery()">
-        <span>{{item.service_state}}</span>
-        <p>{{item.service_reason}}</p>
+        <span>{{item.record_state}}</span>
+        <p>{{item.record_tips}}</p>
         <image src="../../../static/images/order_list_bottom_tb.png"/>
       </div>
     </li>
@@ -27,22 +27,34 @@ export default {
     return {
       listData: [
         {
-          service_number: 201911191551,
-          service_state: '已完成',
-          service_reason: '申请退货已完成',
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/5ac1bf58Ndefaac16.jpg',
-          goods_name: '小米8 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-          goods_num: 2,
-          goods_allPrice: 3699
+          service_number: 'HNTBJ2E042A',
+          product_pic: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5ad83a4fN6ff67ecd.jpg!cc_350x449.jpg',
+          product_name: '"HLA海澜之家简约动物印花短袖T恤"',
+          product_quantity: 1,
+          product_price: 98.00,
+          order_title: '退货申请',
+          record_state: '已完成',
+          record_tips: '申请退货已经完成'
         },
         {
-          service_number: 201911191551,
-          service_state: '已被拒绝',
-          service_reason: '申请退货已被拒绝（个人原因不予退货）',
-          goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
-          goods_name: '华为 HUAWEI P20',
-          goods_num: 1,
-          goods_allPrice: 1299
+          service_number: '6799345',
+          product_pic: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5b19403eN9f0b3cb8.jpg',
+          product_name: '耐克NIKE 男子 气垫 休闲鞋 AIR MAX 90 ESSENTIAL 运动鞋 AJ1285-101白色41码',
+          product_quantity: 1,
+          product_price: 499.00,
+          order_title: '退货申请',
+          record_state: '已被拒绝',
+          record_tips: '申请退货被拒绝'
+        },
+        {
+          service_number: '7437789',
+          product_pic: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180615/5a9d248cN071f4959.jpg',
+          product_name: '小米 红米5A 全网通版 3GB+32GB 香槟金 移动联通电信4G手机 双卡双待',
+          product_quantity: 1,
+          product_price: 649.00,
+          order_title: '退货申请',
+          record_state: '已取消',
+          record_tips: '已取消申请退货'
         }
       ]
     }

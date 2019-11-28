@@ -2,21 +2,21 @@
   <div class="container">
     <div class="messages_top_box">
       <div class="goods_messages_top">
-        <image :src="goods_img"/>
+        <image :src="product_pic"/>
         <div>
-          <p>{{goods_name}}</p>
+          <p>{{product_name}}</p>
           <p>
-            <span><i>单价： </i>{{goods_price}}</span>
-            <font><i>数量： </i>{{goods_num}}</font>
+            <span><i>单价： </i>{{product_price}}</span>
+            <font><i>数量： </i>{{product_quantity}}</font>
           </p>
         </div>
       </div>
       <div class="goods_messages_bottom">
         <span>申请数量：</span>
         <div class="goods_btn_box">
-          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jia.png" /></button>
-          <input type="number" :value="goods_num" class="goods_num_input" disabled="disabled"/>
-          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../static/images/jian.png" /></button>
+          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../../static/images/jia.png" /></button>
+          <input type="number" :value="product_num" class="goods_num_input" disabled="disabled"/>
+          <button class="goods_num_btn"><image class="goods_num_btn_img" src="../../../../static/images/jian.png" /></button>
         </div>
       </div>
     </div>
@@ -40,15 +40,17 @@
         />
         <span>{{textarea_lenth}} / 200</span>
       </div>
+      <image class="picker_image" :src='picker_images_url' @click='PickerImages()'/>
+      <p class="picker_remind">为了帮您更好的解决问题,请务必上传图片!</p>
     </div>
     
     <div class="messages_bottom_box">
       <p class="messages_bottom_title" @click="address_btn(true)">取件地址</p>
       <div class="address_detils_box" v-if="address_details">
         <p>
-          <span>{{address_arr[address_index].name}}</span> 丨 <font>{{address_arr[address_index].tel}} </font>
+          <span>{{address_arr[address_index].name}}</span> 丨 <font>{{address_arr[address_index].phone_number}} </font>
         </p>
-        <p>{{address_arr[address_index].address}}</p>
+        <p>{{address_arr[address_index].province + address_arr[address_index].city + address_arr[address_index].region + address_arr[address_index].detail_address}}</p>
       </div>
     </div>
     
@@ -60,7 +62,7 @@
         <div v-for="(item,index) in address_arr" :key="index" @click="select_address(index)">
           <span>{{item.name}}</span>
           <font>丨</font>
-          <p>{{item.address}}</p>
+          <p>{{item.province + item.city + item.region + item.detail_address}}</p>
         </div>
       </div>
     </div>
@@ -72,27 +74,28 @@ export default {
     return {
       reason_array: ['质量问题', '商品误送', '我不喜欢', '其他问题'],
       reason_index: 0,
-      goods_img: 'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/5ac1bf58Ndefaac16.jpg',
-      goods_name: '小米8 全面屏游戏智能手机 6GB+64GB 黑色 全网通4G 双卡双待',
-      goods_num: 1,
+      product_pic: '',
+      product_name: '',
+      product_quantity: 1,
+      product_num: 0,
       textarea_lenth: 200, // 输入框最大长度
-      goods_price: 3699,
-      address_arr: [
-        {
-          name: '江户川柯南',
-          tel: '13825526845',
-          address: '地址地址地址地址地址地址地址地址地址地址地址地址地址地址地址'
-        },
-        {
-          name: '蒙娜丽莎',
-          tel: '13825526845',
-          address: '地址地址地址地址地址'
-        }
-      ],
+      product_price: 3699,
+      address_arr: [],
       address_model: false, // 地址弹窗
       address_index: 0, // 选择地址下标
-      address_details: false // 地址显示
+      address_details: false, // 地址显示
+      desc: '',
+      picker_images_url: '../../../../static/images/picker_img.png'
     }
+  },
+  mounted () {
+    console.log(mpvue.getStorageSync('addressList'))
+    this.product_pic = mpvue.getStorageSync('afterSaleMessage').product_pic
+    this.product_name = mpvue.getStorageSync('afterSaleMessage').product_name
+    this.product_price = mpvue.getStorageSync('afterSaleMessage').product_price
+    this.product_quantity = mpvue.getStorageSync('afterSaleMessage').product_quantity
+    this.address_arr = mpvue.getStorageSync('addressList')
+    this.product_num = mpvue.getStorageSync('afterSaleMessage').product_quantity
   },
   methods: {
     bindPickerChange: function (e) {
@@ -113,6 +116,18 @@ export default {
     SuccessfulApplication () {
       let url = '/pages/personal/after_sale/after_sale_success/main'
       mpvue.navigateTo({url})
+    },
+    PickerImages () {
+      let _this = this
+      wx.chooseImage({
+        count: 1,
+        sizeType: ['original', 'compressed'],
+        sourceType: ['album', 'camera'],
+        success (res) {
+          _this.picker_images_url = res.tempFilePaths
+          console.log(_this.picker_images_url)
+        }
+      })
     }
   }
 }
@@ -437,4 +452,23 @@ page{
 .submit_button::after{
   border-style: none;
 }
+.picker_image{
+  width: 60px;
+  height: 60px;
+  margin-top: 10px;
+  border: 1px solid #e1e1e1;
+  border-radius: 3px;
+  margin-left: 15px;
+}
+.picker_remind{
+  width:'100%';
+  height:30px;
+  line-height:30px;
+  color:#ff4848;
+  font-size:12px;
+  padding-left:15px;
+  padding-right:15px;
+}
+
+
 </style>
